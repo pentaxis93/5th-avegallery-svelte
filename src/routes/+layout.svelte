@@ -1,4 +1,4 @@
-<script lang='ts'>
+<script lang="ts">
 	// The ordering of these imports is critical to your app working properly
 	import '@skeletonlabs/skeleton/themes/theme-vintage.css';
 	// If you have source.organizeImports set to true in VSCode, then it will auto change this ordering
@@ -9,33 +9,17 @@
 </script>
 
 <!-- App Shell -->
-<AppShell>
+<AppShell slotSidebarLeft="bg-surface-500/5 w-56 p-4">
 	<svelte:fragment slot="header">
 		<!-- App Bar -->
 		<AppBar>
 			<svelte:fragment slot="lead">
-				<strong class="text-xl uppercase">Skeleton</strong>
+				<strong class="text-xl uppercase">5th Ave. Gallery</strong>
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
 				<a
 					class="btn btn-sm variant-ghost-surface"
-					href="https://discord.gg/EXqV7W8MtY"
-					target="_blank"
-					rel="noreferrer"
-				>
-					Discord
-				</a>
-				<a
-					class="btn btn-sm variant-ghost-surface"
-					href="https://twitter.com/SkeletonUI"
-					target="_blank"
-					rel="noreferrer"
-				>
-					Twitter
-				</a>
-				<a
-					class="btn btn-sm variant-ghost-surface"
-					href="https://github.com/skeletonlabs/skeleton"
+					href="https://github.com/pentaxis93/5th-avegallery"
 					target="_blank"
 					rel="noreferrer"
 				>
@@ -44,6 +28,29 @@
 			</svelte:fragment>
 		</AppBar>
 	</svelte:fragment>
+
+	<svelte:fragment slot="sidebarLeft">
+		<!-- Insert the list: -->
+		<nav class="list-nav">
+			<ul>
+				<li><a href="/">Home</a></li>
+				<li><a href="/about">About</a></li>
+				<li><a href="/blog">Blog</a></li>
+				<li><a href="/contact">Contact</a></li>
+			</ul>
+		</nav>
+		<!-- --- -->
+	</svelte:fragment>
+
+	<svelte:fragment slot="footer">
+		<div class="flex justify-center p-3">
+			<p>
+				May this be used for the benefit of all beings everywhere and for the benefit of the
+				Absolute.
+			</p>
+		</div>
+	</svelte:fragment>
+
 	<!-- Page Route Content -->
 	<slot />
 </AppShell>
