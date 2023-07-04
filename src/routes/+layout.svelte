@@ -5,7 +5,7 @@
 	import '@skeletonlabs/skeleton/styles/skeleton.css';
 	// Most of your app wide CSS should be put in this file
 	import '../app.postcss';
-	import { AppShell, AppBar } from '@skeletonlabs/skeleton';
+	import { AppShell, AppBar, LightSwitch } from '@skeletonlabs/skeleton';
 </script>
 
 <!-- App Shell -->
@@ -17,14 +17,17 @@
 				<strong class="text-xl uppercase">5th Ave. Gallery</strong>
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
-				<a
-					class="btn btn-sm variant-ghost-surface"
-					href="https://github.com/pentaxis93/5th-avegallery"
-					target="_blank"
-					rel="noreferrer"
-				>
-					GitHub
-				</a>
+				<div class="flex gap-6 items-center">
+					<a
+						class="btn btn-sm variant-ghost-surface"
+						href="https://github.com/pentaxis93/5th-avegallery"
+						target="_blank"
+						rel="noreferrer"
+					>
+						GitHub
+					</a>
+					<LightSwitch />
+				</div>
 			</svelte:fragment>
 		</AppBar>
 	</svelte:fragment>
