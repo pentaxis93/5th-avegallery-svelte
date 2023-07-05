@@ -3,6 +3,11 @@
 	const { title, pubDate, categories, Content } = data;
 </script>
 
+<svelte:head>
+	<title>5th Ave. Gallery - {title}</title>
+	<meta property="og:title" content={title} />
+</svelte:head>
+
 <article>
 	<h1>{title}</h1>
 	<p>Published: {pubDate}</p>

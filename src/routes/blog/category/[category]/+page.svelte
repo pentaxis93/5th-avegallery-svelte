@@ -4,6 +4,10 @@
 	export let data;
 </script>
 
+<svelte:head>
+	<title>5th Ave. Gallery - {data.category}</title>
+</svelte:head>
+
 <h1>Robert's work room</h1>
 <h2>Category: {data.category}</h2>
 
