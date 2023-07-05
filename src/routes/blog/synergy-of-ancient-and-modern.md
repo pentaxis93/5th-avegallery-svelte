@@ -1,12 +1,15 @@
 ---
-title: "Synergy of Ancient and Modern"
+title: 'Synergy of Ancient and Modern'
 pubDate: 2023-07-17
-description: "The third post."
-author: "pentaxis93"
+description: 'The third post.'
+author: 'pentaxis93'
 image:
-  url: "assets/Synergy.jpg"
-  alt: "Synergy"
-tags: ["synergy", "magick", "programming"]
+  url: 'assets/Synergy.jpg'
+  alt: 'Synergy'
+tags: ['synergy', 'magick', 'programming']
+categories:
+  - 'tech'
+  - 'nonsense'
 ---
 
 In a world where science and technology are forging ahead, one might ask where do the ancient practices of shamanism and Western Magick stand?

@@ -6,12 +6,13 @@ interface LoadParams {
 
 export async function load({ params }: LoadParams) {
   const post = await import(`../${params.slug}.md`);
-  const { title, pubDate } = post.metadata;
+  const { title, pubDate, categories } = post.metadata;
   const Content = post.default;
 
   return {
     Content,
     title,
-    pubDate
+    pubDate,
+    categories
   };
 }

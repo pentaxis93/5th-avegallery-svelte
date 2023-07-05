@@ -1,12 +1,15 @@
 ---
-title: "An Unexpected Convergence"
+title: 'An Unexpected Convergence'
 pubDate: 2023-07-10
-description: "The second post."
-author: "pentaxis93"
+description: 'The second post.'
+author: 'pentaxis93'
 image:
-  url: "assets/Convergence.jpg"
-  alt: "Convergence"
-tags: ["convergence", "programming", "shamanism"]
+  url: 'assets/Convergence.jpg'
+  alt: 'Convergence'
+tags: ['convergence', 'programming', 'shamanism']
+categories:
+  - 'tech'
+  - 'spiritual'
 ---
 
 The universality of human experience, as it turns out, is mirrored in the most unexpected ways. I recently found myself deep-diving into computer programming, Western Magick, and shamanism, and the overlap is uncanny.

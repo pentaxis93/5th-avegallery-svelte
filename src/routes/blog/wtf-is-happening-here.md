@@ -1,12 +1,15 @@
 ---
-title: "Wtf is happening here?"
+title: 'Wtf is happening here?'
 pubDate: 2023-07-03
-description: "The first post."
-author: "pentaxis93"
+description: 'The first post.'
+author: 'pentaxis93'
 image:
-  url: "assets/ClearLight.jpg"
-  alt: "Clear Light"
-tags: ["clear light", "meta", "random"]
+  url: 'assets/ClearLight.jpg'
+  alt: 'Clear Light'
+tags: ['clear light', 'meta', 'random']
+categories:
+  - 'dogs'
+  - 'spiritual'
 ---
 
 Regarding the titular question, I'd better be honest right up front: I have no idea. All phenomena is illusion, and yet it's all so very fucking real. What are we supposed to do with something like that?
