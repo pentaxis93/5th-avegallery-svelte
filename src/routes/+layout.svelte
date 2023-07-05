@@ -7,6 +7,9 @@
 	import '../app.postcss';
 	import { AppShell, AppBar, LightSwitch } from '@skeletonlabs/skeleton';
 	import '../styles/prism-cb.css';
+	import { fade } from 'svelte/transition';
+
+	export let data;
 </script>
 
 <!-- App Shell -->
@@ -57,5 +60,9 @@
 	</svelte:fragment>
 
 	<!-- Page Route Content -->
-	<slot />
+	{#key data.currentRoute}
+		<div in:fade={{ duration: 100, delay: 100 }} out:fade={{ duration: 100 }}>
+			<slot />
+		</div>
+	{/key}
 </AppShell>
