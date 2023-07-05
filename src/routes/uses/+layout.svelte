@@ -2,6 +2,6 @@
 	<title>5th Ave. Gallery - Uses</title>
 </svelte:head>
 
-<div class="prose dark:prose-invert p-4">
+<div class="prose dark:prose-invert">
 	<slot />
 </div>

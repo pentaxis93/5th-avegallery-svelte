@@ -10,7 +10,7 @@
 
 <h1>Robert's work room</h1>
 
-<p>Robert's work room is a place where he can work on his projects.</p>
+<p>Where Robert works.</p>
 
 {#if data.posts && data.posts.length > 0}
 	<ul>
