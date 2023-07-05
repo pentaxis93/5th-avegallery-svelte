@@ -12,7 +12,11 @@ categories:
   - 'nonsense'
 ---
 
+## Yo level 2
+
 In a world where science and technology are forging ahead, one might ask where do the ancient practices of shamanism and Western Magick stand?
+
+### Damn this is 3
 
 1. Consider algorithms, the step-by-step procedures to solve problems in programming. Don't they bear a striking resemblance to the rituals in Magick and Shamanic journeys?
 2. Magick and Shamanism are essentially about interacting with the world using symbolic representations. What is programming if not another form of symbolic representation?

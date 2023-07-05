@@ -7,6 +7,7 @@
 	import '../app.postcss';
 	import { AppShell, AppBar, LightSwitch } from '@skeletonlabs/skeleton';
 	import '../styles/prism-cb.css';
+	import '../styles/global.scss';
 	import { fade } from 'svelte/transition';
 
 	export let data;
