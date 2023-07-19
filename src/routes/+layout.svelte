@@ -5,57 +5,100 @@
 	import '@skeletonlabs/skeleton/styles/skeleton.css';
 	// Most of your app wide CSS should be put in this file
 	import '../app.postcss';
-	import { AppShell, AppBar, LightSwitch } from '@skeletonlabs/skeleton';
+	import {
+		AppShell,
+		AppBar,
+		Drawer,
+		drawerStore,
+		type DrawerSettings
+	} from '@skeletonlabs/skeleton';
 	import '../styles/prism-cb.css';
 	import '../styles/global.scss';
-	import { fade } from 'svelte/transition';
+	import { draw, fade } from 'svelte/transition';
+
+	// These are my regular imports with no special rules
+	import Icon from '@iconify/svelte';
+	import SidebarNav from './SidebarNav.svelte';
 
 	export let data;
 </script>
 
+<Drawer bgDrawer="bg-secondary-800" width="w-28">
+	<div class="p-4">
+		<SidebarNav />
+	</div>
+</Drawer>
+
 <!-- App Shell -->
-<AppShell slotSidebarLeft="bg-surface-500/5 w-56 p-4">
+<AppShell
+	regionPage="bg-tertiary-500 text-black"
+	slotSidebarLeft="
+		hidden
+		sm:block
+		font-semibold
+		tracking-wide
+		bg-secondary-800
+		w-40
+		p-4
+		border-black
+		border-r-8
+	"
+	slotFooter="bg-primary-400 text-black border-black border-t-8"
+>
 	<svelte:fragment slot="header">
 		<!-- App Bar -->
-		<AppBar>
+		<AppBar background="bg-white" border="border-black border-b-8" spacing="space-y-0">
+			<svelte:fragment slot="headline">
+				<div class="flex justify-center">
+					<p
+						class="
+							font-brand
+							text-black
+							text-6xl
+							tracking-widest
+							font-semibold
+							-mb-3
+							hidden
+							sm:block
+						"
+					>
+						5th ave. gallery
+					</p>
+				</div>
+			</svelte:fragment>
 			<svelte:fragment slot="lead">
-				<strong class="text-xl uppercase">5th Ave. Gallery</strong>
+				<button on:click={() => drawerStore.open()}>
+					<Icon icon="solar:hamburger-menu-linear" class="text-black text-xl block sm:hidden" />
+				</button>
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
-				<div class="flex gap-6 items-center">
-					<a
-						class="btn btn-sm variant-ghost-surface"
-						href="https://github.com/pentaxis93/5th-avegallery"
-						target="_blank"
-						rel="noreferrer"
-					>
-						GitHub
-					</a>
-					<LightSwitch />
-				</div>
+				<p
+					class="
+							font-brand
+							text-black
+							text-lg
+							tracking-wider
+							font-semibold
+							-mb-3
+							block
+							sm:hidden
+						"
+				>
+					5th ave. gallery
+				</p>
 			</svelte:fragment>
 		</AppBar>
 	</svelte:fragment>
 
 	<svelte:fragment slot="sidebarLeft">
-		<!-- Insert the list: -->
-		<nav class="list-nav">
-			<ul>
-				<li><a href="/">Home</a></li>
-				<li><a href="/about">About</a></li>
-				<li><a href="/blog">Blog</a></li>
-				<li><a href="/contact">Contact</a></li>
-				<li><a href="/uses">Uses</a></li>
-			</ul>
-		</nav>
-		<!-- --- -->
+		<SidebarNav />
 	</svelte:fragment>
 
 	<svelte:fragment slot="footer">
 		<div class="flex justify-center p-3">
-			<p>
-				May this be used for the benefit of all beings everywhere and for the benefit of the
-				Absolute.
+			<p class="text-xs sm:text-sm text-center">
+				{`\u201CMay this be used for the benefit of all beings everywhere and for the benefit of the
+				Absolute.\u201D`}
 			</p>
 		</div>
 	</svelte:fragment>
