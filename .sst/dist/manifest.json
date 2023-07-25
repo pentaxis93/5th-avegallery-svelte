@@ -1,0 +1,311 @@
+{
+  "version": "32.0.0",
+  "artifacts": {
+    "pentaxis93-my-sst-app-API.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "pentaxis93-my-sst-app-API.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "pentaxis93-my-sst-app-API": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://863384285069/us-east-1",
+      "properties": {
+        "templateFile": "pentaxis93-my-sst-app-API.template.json",
+        "tags": {
+          "sst:app": "my-sst-app",
+          "sst:stage": "pentaxis93"
+        },
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::863384285069:role/cdk-hnb659fds-deploy-role-863384285069-us-east-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::863384285069:role/cdk-hnb659fds-cfn-exec-role-863384285069-us-east-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-863384285069-us-east-1/bc4945d0952261365fd93404d36f33fcd82f08bf9a2e53771d5baf77f17fa16a.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "pentaxis93-my-sst-app-API.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::863384285069:role/cdk-hnb659fds-lookup-role-863384285069-us-east-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "pentaxis93-my-sst-app-API.assets"
+      ],
+      "metadata": {
+        "/pentaxis93-my-sst-app-API": [
+          {
+            "type": "aws:cdk:stack-tags",
+            "data": [
+              {
+                "Key": "sst:app",
+                "Value": "my-sst-app"
+              },
+              {
+                "Key": "sst:stage",
+                "Value": "pentaxis93"
+              }
+            ]
+          }
+        ],
+        "/pentaxis93-my-sst-app-API/CustomResourceHandler/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomResourceHandlerServiceRole41AEC181"
+          }
+        ],
+        "/pentaxis93-my-sst-app-API/CustomResourceHandler/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomResourceHandlerE8FB56BA"
+          }
+        ],
+        "/pentaxis93-my-sst-app-API/bus/EventBus/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "busEventBus27CE599B"
+          }
+        ],
+        "/pentaxis93-my-sst-app-API/bus/RetrierQueue/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "busRetrierQueue89364BB5"
+          }
+        ],
+        "/pentaxis93-my-sst-app-API/bus/RetrierFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "busRetrierFunctionServiceRoleCE8B64C2"
+          }
+        ],
+        "/pentaxis93-my-sst-app-API/bus/RetrierFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "busRetrierFunctionServiceRoleDefaultPolicy1868A7F6"
+          }
+        ],
+        "/pentaxis93-my-sst-app-API/bus/RetrierFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "busRetrierFunctionA625372F"
+          }
+        ],
+        "/pentaxis93-my-sst-app-API/bus/RetrierFunction/SqsEventSource:pentaxis93mysstappAPIbusRetrierQueueA59B33EE/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "busRetrierFunctionSqsEventSourcepentaxis93mysstappAPIbusRetrierQueueA59B33EE7B924B10"
+          }
+        ],
+        "/pentaxis93-my-sst-app-API/bus/todo_created_1/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "bustodocreated1ServiceRole4C30328F"
+          }
+        ],
+        "/pentaxis93-my-sst-app-API/bus/todo_created_1/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "bustodocreated1ServiceRoleDefaultPolicyB19D662B"
+          }
+        ],
+        "/pentaxis93-my-sst-app-API/bus/todo_created_1/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "bustodocreated1F82766D3"
+          }
+        ],
+        "/pentaxis93-my-sst-app-API/bus/todo_created_1/EventInvokeConfig/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "bustodocreated1EventInvokeConfig7DC57D3D"
+          }
+        ],
+        "/pentaxis93-my-sst-app-API/bus/todo_created_1_rule/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "bustodocreated1rule42B5E680"
+          }
+        ],
+        "/pentaxis93-my-sst-app-API/bus/todo_created_1_rule/AllowEventRulepentaxis93mysstappAPIbustodocreated159F74EE4": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "bustodocreated1ruleAllowEventRulepentaxis93mysstappAPIbustodocreated159F74EE44091C693"
+          }
+        ],
+        "/pentaxis93-my-sst-app-API/bus/Parameter_eventBusName/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "busParametereventBusNameFE245BC9"
+          }
+        ],
+        "/pentaxis93-my-sst-app-API/api/Api/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "apiApiC3C473D0"
+          }
+        ],
+        "/pentaxis93-my-sst-app-API/api/Api/DefaultStage/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "apiApiDefaultStageA626ED4D"
+          }
+        ],
+        "/pentaxis93-my-sst-app-API/api/LogGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "apiLogGroup924E5B7A"
+          }
+        ],
+        "/pentaxis93-my-sst-app-API/api/Lambda_GET_--/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "apiLambdaGETServiceRole57A117D1"
+          }
+        ],
+        "/pentaxis93-my-sst-app-API/api/Lambda_GET_--/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "apiLambdaGETServiceRoleDefaultPolicyE9384899"
+          }
+        ],
+        "/pentaxis93-my-sst-app-API/api/Lambda_GET_--/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "apiLambdaGET2D5CB7A7"
+          }
+        ],
+        "/pentaxis93-my-sst-app-API/api/Route_GET_--/Integration_GET_--/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "apiRouteGETIntegrationGET451F73F0"
+          }
+        ],
+        "/pentaxis93-my-sst-app-API/api/Route_GET_--/Integration_GET_---Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "apiRouteGETIntegrationGETPermission02100559"
+          }
+        ],
+        "/pentaxis93-my-sst-app-API/api/Route_GET_--/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "apiRouteGET1A9E87AB"
+          }
+        ],
+        "/pentaxis93-my-sst-app-API/api/Lambda_GET_--todo/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "apiLambdaGETtodoServiceRole94DBF9A6"
+          }
+        ],
+        "/pentaxis93-my-sst-app-API/api/Lambda_GET_--todo/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "apiLambdaGETtodoServiceRoleDefaultPolicyD67972C1"
+          }
+        ],
+        "/pentaxis93-my-sst-app-API/api/Lambda_GET_--todo/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "apiLambdaGETtodoE1818762"
+          }
+        ],
+        "/pentaxis93-my-sst-app-API/api/Route_GET_--todo/Integration_GET_--todo/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "apiRouteGETtodoIntegrationGETtodoC2F421C0"
+          }
+        ],
+        "/pentaxis93-my-sst-app-API/api/Route_GET_--todo/Integration_GET_--todo-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "apiRouteGETtodoIntegrationGETtodoPermissionF52D07A0"
+          }
+        ],
+        "/pentaxis93-my-sst-app-API/api/Route_GET_--todo/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "apiRouteGETtodo82BEE801"
+          }
+        ],
+        "/pentaxis93-my-sst-app-API/api/Lambda_POST_--todo/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "apiLambdaPOSTtodoServiceRole1C95A526"
+          }
+        ],
+        "/pentaxis93-my-sst-app-API/api/Lambda_POST_--todo/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "apiLambdaPOSTtodoServiceRoleDefaultPolicy8D5DDCCA"
+          }
+        ],
+        "/pentaxis93-my-sst-app-API/api/Lambda_POST_--todo/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "apiLambdaPOSTtodo52E7EC32"
+          }
+        ],
+        "/pentaxis93-my-sst-app-API/api/Route_POST_--todo/Integration_POST_--todo/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "apiRoutePOSTtodoIntegrationPOSTtodoBFCE49F1"
+          }
+        ],
+        "/pentaxis93-my-sst-app-API/api/Route_POST_--todo/Integration_POST_--todo-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "apiRoutePOSTtodoIntegrationPOSTtodoPermission1DAFD11A"
+          }
+        ],
+        "/pentaxis93-my-sst-app-API/api/Route_POST_--todo/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "apiRoutePOSTtodoE9809691"
+          }
+        ],
+        "/pentaxis93-my-sst-app-API/api/Parameter_url/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "apiParameterurl1D4D90E2"
+          }
+        ],
+        "/pentaxis93-my-sst-app-API/SSTStackOutputApiEndpoint": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiEndpoint"
+          }
+        ],
+        "/pentaxis93-my-sst-app-API/SSTStackOutputSSTMetadata": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SSTMetadata"
+          }
+        ],
+        "/pentaxis93-my-sst-app-API/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/pentaxis93-my-sst-app-API/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "pentaxis93-my-sst-app-API"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}

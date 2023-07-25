@@ -2,18 +2,30 @@
   "name": "5th-avegallery",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "sst:dev": "sst dev",
+    "sst:build": "sst build",
+    "sst:deploy": "sst deploy",
+    "sst:remove": "sst remove",
+    "sst:console": "sst console",
+    "sst:typecheck": "tsc --noEmit"
   },
   "devDependencies": {
+    "@5th-avegallery/eslint-config-custom": "workspace:*",
+    "@tsconfig/node16": "^16.1.0",
+    "aws-cdk-lib": "2.84.0",
+    "constructs": "10.1.156",
     "eslint": "^8.0.0",
-    "eslint-config-custom": "workspace:*",
     "prettier": "^2.7.1",
     "prettier-plugin-svelte": "^2.7.0",
-    "turbo": "latest"
+    "sst": "^2.22.6",
+    "turbo": "latest",
+    "typescript": "^5.1.6"
   },
   "packageManager": "pnpm@7.15.0"
 }

@@ -12,11 +12,12 @@
 		"format": "prettier --write --ignore-path=../../.prettierignore ."
 	},
 	"dependencies": {
+		"@5th-avegallery/ui": "workspace:*",
 		"rehype-autolink-headings": "^6.1.1",
-		"rehype-slug": "^5.1.0",
-		"ui": "workspace:*"
+		"rehype-slug": "^5.1.0"
 	},
 	"devDependencies": {
+		"@5th-avegallery/eslint-config-custom": "workspace:*",
 		"@floating-ui/dom": "^1.4.5",
 		"@iconify/svelte": "^3.1.4",
 		"@playwright/test": "^1.36.2",
@@ -30,7 +31,6 @@
 		"@typescript-eslint/parser": "^5.62.0",
 		"autoprefixer": "^10.4.14",
 		"eslint": "^8.45.0",
-		"eslint-config-custom": "workspace:*",
 		"eslint-config-prettier": "^8.8.0",
 		"eslint-plugin-svelte": "^2.32.4",
 		"highlight.js": "^11.8.0",

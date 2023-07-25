@@ -9,6 +9,27 @@
     "dev": {
       "cache": false,
       "persistent": true
+    },
+    "sst:dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "sst:build": {
+      "dependsOn": ["^sst:build"],
+      "outputs": ["dist/**"]
+    },
+    "sst:deploy": {
+      "dependsOn": ["sst:build"],
+      "outputs": ["dist/**"]
+    },
+    "sst:remove": {
+      "dependsOn": []
+    },
+    "sst:console": {
+      "dependsOn": []
+    },
+    "sst:typecheck": {
+      "dependsOn": []
     }
   }
 }

@@ -1,0 +1,1257 @@
+{
+ "Resources": {
+  "CustomResourceHandlerServiceRole41AEC181": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "my-sst-app"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "pentaxis93"
+     }
+    ]
+   }
+  },
+  "CustomResourceHandlerE8FB56BA": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-863384285069-us-east-1",
+     "S3Key": "32504de6085aa9cef70f807a76a6aca001f316d3b47abf245a64f264c9e71316.zip"
+    },
+    "Role": {
+     "Fn::GetAtt": [
+      "CustomResourceHandlerServiceRole41AEC181",
+      "Arn"
+     ]
+    },
+    "Handler": "index.handler",
+    "MemorySize": 1024,
+    "Runtime": "nodejs16.x",
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "my-sst-app"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "pentaxis93"
+     }
+    ],
+    "Timeout": 900
+   },
+   "DependsOn": [
+    "CustomResourceHandlerServiceRole41AEC181"
+   ]
+  },
+  "busEventBus27CE599B": {
+   "Type": "AWS::Events::EventBus",
+   "Properties": {
+    "Name": "pentaxis93-my-sst-app-bus"
+   }
+  },
+  "busRetrierQueue89364BB5": {
+   "Type": "AWS::SQS::Queue",
+   "Properties": {
+    "QueueName": "pentaxis93-my-sst-app-busRetrier",
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "my-sst-app"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "pentaxis93"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "busRetrierFunctionServiceRoleCE8B64C2": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "my-sst-app"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "pentaxis93"
+     }
+    ]
+   }
+  },
+  "busRetrierFunctionServiceRoleDefaultPolicy1868A7F6": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "sqs:ReceiveMessage",
+        "sqs:ChangeMessageVisibility",
+        "sqs:GetQueueUrl",
+        "sqs:DeleteMessage",
+        "sqs:GetQueueAttributes"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "busRetrierQueue89364BB5",
+         "Arn"
+        ]
+       }
+      },
+      {
+       "Action": [
+        "sqs:SendMessage",
+        "sqs:GetQueueAttributes",
+        "sqs:GetQueueUrl"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "busRetrierQueue89364BB5",
+         "Arn"
+        ]
+       }
+      },
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "bustodocreated1F82766D3",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "bustodocreated1F82766D3",
+             "Arn"
+            ]
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "busRetrierFunctionServiceRoleDefaultPolicy1868A7F6",
+    "Roles": [
+     {
+      "Ref": "busRetrierFunctionServiceRoleCE8B64C2"
+     }
+    ]
+   }
+  },
+  "busRetrierFunctionA625372F": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-863384285069-us-east-1",
+     "S3Key": "ba6471191c0ebc9b2d34abebc6aeb998449055f7d995c8d4141d1385555459ab.zip"
+    },
+    "Role": {
+     "Fn::GetAtt": [
+      "busRetrierFunctionServiceRoleCE8B64C2",
+      "Arn"
+     ]
+    },
+    "Environment": {
+     "Variables": {
+      "RETRIER_QUEUE_URL": {
+       "Ref": "busRetrierQueue89364BB5"
+      },
+      "RETRIES": {
+       "Fn::Join": [
+        "",
+        [
+         "{\"",
+         {
+          "Fn::GetAtt": [
+           "bustodocreated1F82766D3",
+           "Arn"
+          ]
+         },
+         "\":10}"
+        ]
+       ]
+      }
+     }
+    },
+    "FunctionName": "pentaxis93-my-sst-app-busRetrier",
+    "Handler": "index.handler",
+    "Runtime": "nodejs14.x",
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "my-sst-app"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "pentaxis93"
+     }
+    ]
+   },
+   "DependsOn": [
+    "busRetrierFunctionServiceRoleDefaultPolicy1868A7F6",
+    "busRetrierFunctionServiceRoleCE8B64C2"
+   ]
+  },
+  "busRetrierFunctionSqsEventSourcepentaxis93mysstappAPIbusRetrierQueueA59B33EE7B924B10": {
+   "Type": "AWS::Lambda::EventSourceMapping",
+   "Properties": {
+    "FunctionName": {
+     "Ref": "busRetrierFunctionA625372F"
+    },
+    "EventSourceArn": {
+     "Fn::GetAtt": [
+      "busRetrierQueue89364BB5",
+      "Arn"
+     ]
+    }
+   }
+  },
+  "bustodocreated1ServiceRole4C30328F": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "my-sst-app"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "pentaxis93"
+     }
+    ]
+   }
+  },
+  "bustodocreated1ServiceRoleDefaultPolicyB19D662B": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "xray:PutTraceSegments",
+        "xray:PutTelemetryRecords"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "sqs:SendMessage",
+        "sqs:GetQueueAttributes",
+        "sqs:GetQueueUrl"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "busRetrierQueue89364BB5",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "bustodocreated1ServiceRoleDefaultPolicyB19D662B",
+    "Roles": [
+     {
+      "Ref": "bustodocreated1ServiceRole4C30328F"
+     }
+    ]
+   }
+  },
+  "bustodocreated1F82766D3": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "ZipFile": "export function placeholder() {}"
+    },
+    "Role": {
+     "Fn::GetAtt": [
+      "bustodocreated1ServiceRole4C30328F",
+      "Arn"
+     ]
+    },
+    "Architectures": [
+     "x86_64"
+    ],
+    "Environment": {
+     "Variables": {
+      "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+      "SST_APP": "my-sst-app",
+      "SST_STAGE": "pentaxis93",
+      "SST_SSM_PREFIX": "/sst/my-sst-app/pentaxis93/"
+     }
+    },
+    "EphemeralStorage": {
+     "Size": 512
+    },
+    "Handler": "index.placeholder",
+    "MemorySize": 1024,
+    "Runtime": "nodejs16.x",
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "my-sst-app"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "pentaxis93"
+     }
+    ],
+    "Timeout": 10,
+    "TracingConfig": {
+     "Mode": "Active"
+    }
+   },
+   "DependsOn": [
+    "bustodocreated1ServiceRoleDefaultPolicyB19D662B",
+    "bustodocreated1ServiceRole4C30328F"
+   ]
+  },
+  "bustodocreated1EventInvokeConfig7DC57D3D": {
+   "Type": "AWS::Lambda::EventInvokeConfig",
+   "Properties": {
+    "FunctionName": {
+     "Ref": "bustodocreated1F82766D3"
+    },
+    "Qualifier": "$LATEST",
+    "DestinationConfig": {
+     "OnFailure": {
+      "Destination": {
+       "Fn::GetAtt": [
+        "busRetrierQueue89364BB5",
+        "Arn"
+       ]
+      }
+     }
+    }
+   }
+  },
+  "bustodocreated1rule42B5E680": {
+   "Type": "AWS::Events::Rule",
+   "Properties": {
+    "EventBusName": {
+     "Ref": "busEventBus27CE599B"
+    },
+    "EventPattern": {
+     "detail-type": [
+      "todo.created"
+     ]
+    },
+    "Name": "pentaxis93-my-sst-app-todo_created_1_rule",
+    "State": "ENABLED",
+    "Targets": [
+     {
+      "Arn": {
+       "Fn::GetAtt": [
+        "bustodocreated1F82766D3",
+        "Arn"
+       ]
+      },
+      "Id": "Target0"
+     }
+    ]
+   }
+  },
+  "bustodocreated1ruleAllowEventRulepentaxis93mysstappAPIbustodocreated159F74EE44091C693": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "bustodocreated1F82766D3",
+      "Arn"
+     ]
+    },
+    "Principal": "events.amazonaws.com",
+    "SourceArn": {
+     "Fn::GetAtt": [
+      "bustodocreated1rule42B5E680",
+      "Arn"
+     ]
+    }
+   }
+  },
+  "busParametereventBusNameFE245BC9": {
+   "Type": "AWS::SSM::Parameter",
+   "Properties": {
+    "Type": "String",
+    "Value": {
+     "Ref": "busEventBus27CE599B"
+    },
+    "Name": "/sst/my-sst-app/pentaxis93/EventBus/bus/eventBusName",
+    "Tags": {
+     "sst:app": "my-sst-app",
+     "sst:stage": "pentaxis93"
+    }
+   }
+  },
+  "apiApiC3C473D0": {
+   "Type": "AWS::ApiGatewayV2::Api",
+   "Properties": {
+    "CorsConfiguration": {
+     "AllowCredentials": false,
+     "AllowHeaders": [
+      "*"
+     ],
+     "AllowMethods": [
+      "*"
+     ],
+     "AllowOrigins": [
+      "*"
+     ]
+    },
+    "Name": "pentaxis93-my-sst-app-api",
+    "ProtocolType": "HTTP",
+    "Tags": {
+     "sst:app": "my-sst-app",
+     "sst:stage": "pentaxis93"
+    }
+   }
+  },
+  "apiApiDefaultStageA626ED4D": {
+   "Type": "AWS::ApiGatewayV2::Stage",
+   "Properties": {
+    "ApiId": {
+     "Ref": "apiApiC3C473D0"
+    },
+    "StageName": "$default",
+    "AccessLogSettings": {
+     "DestinationArn": {
+      "Fn::GetAtt": [
+       "apiLogGroup924E5B7A",
+       "Arn"
+      ]
+     },
+     "Format": "{\"requestTime\":\"$context.requestTime\",\"requestId\":\"$context.requestId\",\"httpMethod\":\"$context.httpMethod\",\"path\":\"$context.path\",\"routeKey\":\"$context.routeKey\",\"status\":$context.status,\"responseLatency\":$context.responseLatency,\"integrationRequestId\":\"$context.integration.requestId\",\"integrationStatus\":\"$context.integration.status\",\"integrationLatency\":\"$context.integration.latency\",\"integrationServiceStatus\":\"$context.integration.integrationStatus\",\"ip\":\"$context.identity.sourceIp\",\"userAgent\":\"$context.identity.userAgent\"}"
+    },
+    "AutoDeploy": true,
+    "Tags": {
+     "sst:app": "my-sst-app",
+     "sst:stage": "pentaxis93"
+    }
+   }
+  },
+  "apiLogGroup924E5B7A": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/vendedlogs/apis/pentaxis93-my-sst-app-api-",
+       {
+        "Ref": "apiApiC3C473D0"
+       },
+       "/default"
+      ]
+     ]
+    },
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "my-sst-app"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "pentaxis93"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain"
+  },
+  "apiLambdaGETServiceRole57A117D1": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "my-sst-app"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "pentaxis93"
+     }
+    ]
+   }
+  },
+  "apiLambdaGETServiceRoleDefaultPolicyE9384899": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "xray:PutTraceSegments",
+        "xray:PutTelemetryRecords"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": "events:*",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "busEventBus27CE599B",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "apiLambdaGETServiceRoleDefaultPolicyE9384899",
+    "Roles": [
+     {
+      "Ref": "apiLambdaGETServiceRole57A117D1"
+     }
+    ]
+   }
+  },
+  "apiLambdaGET2D5CB7A7": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "ZipFile": "export function placeholder() {}"
+    },
+    "Role": {
+     "Fn::GetAtt": [
+      "apiLambdaGETServiceRole57A117D1",
+      "Arn"
+     ]
+    },
+    "Architectures": [
+     "x86_64"
+    ],
+    "Environment": {
+     "Variables": {
+      "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+      "SST_APP": "my-sst-app",
+      "SST_STAGE": "pentaxis93",
+      "SST_SSM_PREFIX": "/sst/my-sst-app/pentaxis93/",
+      "SST_EventBus_eventBusName_bus": {
+       "Ref": "busEventBus27CE599B"
+      }
+     }
+    },
+    "EphemeralStorage": {
+     "Size": 512
+    },
+    "Handler": "index.placeholder",
+    "MemorySize": 1024,
+    "Runtime": "nodejs16.x",
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "my-sst-app"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "pentaxis93"
+     }
+    ],
+    "Timeout": 10,
+    "TracingConfig": {
+     "Mode": "Active"
+    }
+   },
+   "DependsOn": [
+    "apiLambdaGETServiceRoleDefaultPolicyE9384899",
+    "apiLambdaGETServiceRole57A117D1"
+   ]
+  },
+  "apiRouteGETIntegrationGET451F73F0": {
+   "Type": "AWS::ApiGatewayV2::Integration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "apiApiC3C473D0"
+    },
+    "IntegrationType": "AWS_PROXY",
+    "IntegrationUri": {
+     "Fn::GetAtt": [
+      "apiLambdaGET2D5CB7A7",
+      "Arn"
+     ]
+    },
+    "PayloadFormatVersion": "2.0"
+   }
+  },
+  "apiRouteGETIntegrationGETPermission02100559": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "apiLambdaGET2D5CB7A7",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:863384285069:",
+       {
+        "Ref": "apiApiC3C473D0"
+       },
+       "/*/*/"
+      ]
+     ]
+    }
+   }
+  },
+  "apiRouteGET1A9E87AB": {
+   "Type": "AWS::ApiGatewayV2::Route",
+   "Properties": {
+    "ApiId": {
+     "Ref": "apiApiC3C473D0"
+    },
+    "RouteKey": "GET /",
+    "AuthorizationType": "NONE",
+    "Target": {
+     "Fn::Join": [
+      "",
+      [
+       "integrations/",
+       {
+        "Ref": "apiRouteGETIntegrationGET451F73F0"
+       }
+      ]
+     ]
+    }
+   }
+  },
+  "apiLambdaGETtodoServiceRole94DBF9A6": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "my-sst-app"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "pentaxis93"
+     }
+    ]
+   }
+  },
+  "apiLambdaGETtodoServiceRoleDefaultPolicyD67972C1": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "xray:PutTraceSegments",
+        "xray:PutTelemetryRecords"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": "events:*",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "busEventBus27CE599B",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "apiLambdaGETtodoServiceRoleDefaultPolicyD67972C1",
+    "Roles": [
+     {
+      "Ref": "apiLambdaGETtodoServiceRole94DBF9A6"
+     }
+    ]
+   }
+  },
+  "apiLambdaGETtodoE1818762": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "ZipFile": "export function placeholder() {}"
+    },
+    "Role": {
+     "Fn::GetAtt": [
+      "apiLambdaGETtodoServiceRole94DBF9A6",
+      "Arn"
+     ]
+    },
+    "Architectures": [
+     "x86_64"
+    ],
+    "Environment": {
+     "Variables": {
+      "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+      "SST_APP": "my-sst-app",
+      "SST_STAGE": "pentaxis93",
+      "SST_SSM_PREFIX": "/sst/my-sst-app/pentaxis93/",
+      "SST_EventBus_eventBusName_bus": {
+       "Ref": "busEventBus27CE599B"
+      }
+     }
+    },
+    "EphemeralStorage": {
+     "Size": 512
+    },
+    "Handler": "index.placeholder",
+    "MemorySize": 1024,
+    "Runtime": "nodejs16.x",
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "my-sst-app"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "pentaxis93"
+     }
+    ],
+    "Timeout": 10,
+    "TracingConfig": {
+     "Mode": "Active"
+    }
+   },
+   "DependsOn": [
+    "apiLambdaGETtodoServiceRoleDefaultPolicyD67972C1",
+    "apiLambdaGETtodoServiceRole94DBF9A6"
+   ]
+  },
+  "apiRouteGETtodoIntegrationGETtodoC2F421C0": {
+   "Type": "AWS::ApiGatewayV2::Integration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "apiApiC3C473D0"
+    },
+    "IntegrationType": "AWS_PROXY",
+    "IntegrationUri": {
+     "Fn::GetAtt": [
+      "apiLambdaGETtodoE1818762",
+      "Arn"
+     ]
+    },
+    "PayloadFormatVersion": "2.0"
+   }
+  },
+  "apiRouteGETtodoIntegrationGETtodoPermissionF52D07A0": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "apiLambdaGETtodoE1818762",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:863384285069:",
+       {
+        "Ref": "apiApiC3C473D0"
+       },
+       "/*/*/todo"
+      ]
+     ]
+    }
+   }
+  },
+  "apiRouteGETtodo82BEE801": {
+   "Type": "AWS::ApiGatewayV2::Route",
+   "Properties": {
+    "ApiId": {
+     "Ref": "apiApiC3C473D0"
+    },
+    "RouteKey": "GET /todo",
+    "AuthorizationType": "NONE",
+    "Target": {
+     "Fn::Join": [
+      "",
+      [
+       "integrations/",
+       {
+        "Ref": "apiRouteGETtodoIntegrationGETtodoC2F421C0"
+       }
+      ]
+     ]
+    }
+   }
+  },
+  "apiLambdaPOSTtodoServiceRole1C95A526": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "my-sst-app"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "pentaxis93"
+     }
+    ]
+   }
+  },
+  "apiLambdaPOSTtodoServiceRoleDefaultPolicy8D5DDCCA": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "xray:PutTraceSegments",
+        "xray:PutTelemetryRecords"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": "events:*",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "busEventBus27CE599B",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "apiLambdaPOSTtodoServiceRoleDefaultPolicy8D5DDCCA",
+    "Roles": [
+     {
+      "Ref": "apiLambdaPOSTtodoServiceRole1C95A526"
+     }
+    ]
+   }
+  },
+  "apiLambdaPOSTtodo52E7EC32": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "ZipFile": "export function placeholder() {}"
+    },
+    "Role": {
+     "Fn::GetAtt": [
+      "apiLambdaPOSTtodoServiceRole1C95A526",
+      "Arn"
+     ]
+    },
+    "Architectures": [
+     "x86_64"
+    ],
+    "Environment": {
+     "Variables": {
+      "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+      "SST_APP": "my-sst-app",
+      "SST_STAGE": "pentaxis93",
+      "SST_SSM_PREFIX": "/sst/my-sst-app/pentaxis93/",
+      "SST_EventBus_eventBusName_bus": {
+       "Ref": "busEventBus27CE599B"
+      }
+     }
+    },
+    "EphemeralStorage": {
+     "Size": 512
+    },
+    "Handler": "index.placeholder",
+    "MemorySize": 1024,
+    "Runtime": "nodejs16.x",
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "my-sst-app"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "pentaxis93"
+     }
+    ],
+    "Timeout": 10,
+    "TracingConfig": {
+     "Mode": "Active"
+    }
+   },
+   "DependsOn": [
+    "apiLambdaPOSTtodoServiceRoleDefaultPolicy8D5DDCCA",
+    "apiLambdaPOSTtodoServiceRole1C95A526"
+   ]
+  },
+  "apiRoutePOSTtodoIntegrationPOSTtodoBFCE49F1": {
+   "Type": "AWS::ApiGatewayV2::Integration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "apiApiC3C473D0"
+    },
+    "IntegrationType": "AWS_PROXY",
+    "IntegrationUri": {
+     "Fn::GetAtt": [
+      "apiLambdaPOSTtodo52E7EC32",
+      "Arn"
+     ]
+    },
+    "PayloadFormatVersion": "2.0"
+   }
+  },
+  "apiRoutePOSTtodoIntegrationPOSTtodoPermission1DAFD11A": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "apiLambdaPOSTtodo52E7EC32",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:863384285069:",
+       {
+        "Ref": "apiApiC3C473D0"
+       },
+       "/*/*/todo"
+      ]
+     ]
+    }
+   }
+  },
+  "apiRoutePOSTtodoE9809691": {
+   "Type": "AWS::ApiGatewayV2::Route",
+   "Properties": {
+    "ApiId": {
+     "Ref": "apiApiC3C473D0"
+    },
+    "RouteKey": "POST /todo",
+    "AuthorizationType": "NONE",
+    "Target": {
+     "Fn::Join": [
+      "",
+      [
+       "integrations/",
+       {
+        "Ref": "apiRoutePOSTtodoIntegrationPOSTtodoBFCE49F1"
+       }
+      ]
+     ]
+    }
+   }
+  },
+  "apiParameterurl1D4D90E2": {
+   "Type": "AWS::SSM::Parameter",
+   "Properties": {
+    "Type": "String",
+    "Value": {
+     "Fn::GetAtt": [
+      "apiApiC3C473D0",
+      "ApiEndpoint"
+     ]
+    },
+    "Name": "/sst/my-sst-app/pentaxis93/Api/api/url",
+    "Tags": {
+     "sst:app": "my-sst-app",
+     "sst:stage": "pentaxis93"
+    }
+   }
+  }
+ },
+ "Outputs": {
+  "ApiEndpoint": {
+   "Value": {
+    "Fn::GetAtt": [
+     "apiApiC3C473D0",
+     "ApiEndpoint"
+    ]
+   }
+  },
+  "SSTMetadata": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "{\"app\":\"my-sst-app\",\"stage\":\"pentaxis93\",\"version\":\"2.22.6\",\"metadata\":[{\"id\":\"bus\",\"addr\":\"c8bf1fa6505d04f3555c3968ac77930e5360262e3f\",\"stack\":\"pentaxis93-my-sst-app-API\",\"type\":\"EventBus\",\"data\":{\"eventBusName\":\"",
+      {
+       "Ref": "busEventBus27CE599B"
+      },
+      "\",\"rules\":[{\"key\":\"todo_created_1_rule\",\"targets\":[{\"node\":\"c8804485bd98804e6bea0b63a04454c0f484e70b2c\",\"stack\":\"pentaxis93-my-sst-app-API\"}],\"targetNames\":[\"todo_created_1_target\"]}]}},{\"id\":\"todo_created_1\",\"addr\":\"c8804485bd98804e6bea0b63a04454c0f484e70b2c\",\"stack\":\"pentaxis93-my-sst-app-API\",\"type\":\"Function\",\"data\":{\"arn\":\"",
+      {
+       "Fn::GetAtt": [
+        "bustodocreated1F82766D3",
+        "Arn"
+       ]
+      },
+      "\",\"handler\":\"packages/functions/src/events/todo-created.handler\",\"localId\":\"c8804485bd98804e6bea0b63a04454c0f484e70b2c\",\"secrets\":[]}},{\"id\":\"api\",\"addr\":\"c8fb45e8bca3e2977ab8b0ebe862ca29fd95767e1c\",\"stack\":\"pentaxis93-my-sst-app-API\",\"type\":\"Api\",\"data\":{\"graphql\":false,\"url\":\"https://",
+      {
+       "Ref": "apiApiC3C473D0"
+      },
+      ".execute-api.us-east-1.",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/\",\"httpApiId\":\"",
+      {
+       "Ref": "apiApiC3C473D0"
+      },
+      "\",\"routes\":[{\"type\":\"function\",\"route\":\"GET /\",\"fn\":{\"node\":\"c8bd099081a1959367c2922f27be5ca2f4feda0880\",\"stack\":\"pentaxis93-my-sst-app-API\"}},{\"type\":\"function\",\"route\":\"GET /todo\",\"fn\":{\"node\":\"c8a2dc1f33c2823fa813440971d0a7c9363458911c\",\"stack\":\"pentaxis93-my-sst-app-API\"}},{\"type\":\"function\",\"route\":\"POST /todo\",\"fn\":{\"node\":\"c87b7d2e7dffc69af9c8cef6d8963264ef951f84d6\",\"stack\":\"pentaxis93-my-sst-app-API\"}}]}},{\"id\":\"Lambda_GET_--\",\"addr\":\"c8bd099081a1959367c2922f27be5ca2f4feda0880\",\"stack\":\"pentaxis93-my-sst-app-API\",\"type\":\"Function\",\"data\":{\"arn\":\"",
+      {
+       "Fn::GetAtt": [
+        "apiLambdaGET2D5CB7A7",
+        "Arn"
+       ]
+      },
+      "\",\"handler\":\"packages/functions/src/lambda.handler\",\"localId\":\"c8bd099081a1959367c2922f27be5ca2f4feda0880\",\"secrets\":[]}},{\"id\":\"Lambda_GET_--todo\",\"addr\":\"c8a2dc1f33c2823fa813440971d0a7c9363458911c\",\"stack\":\"pentaxis93-my-sst-app-API\",\"type\":\"Function\",\"data\":{\"arn\":\"",
+      {
+       "Fn::GetAtt": [
+        "apiLambdaGETtodoE1818762",
+        "Arn"
+       ]
+      },
+      "\",\"handler\":\"packages/functions/src/todo.list\",\"localId\":\"c8a2dc1f33c2823fa813440971d0a7c9363458911c\",\"secrets\":[]}},{\"id\":\"Lambda_POST_--todo\",\"addr\":\"c87b7d2e7dffc69af9c8cef6d8963264ef951f84d6\",\"stack\":\"pentaxis93-my-sst-app-API\",\"type\":\"Function\",\"data\":{\"arn\":\"",
+      {
+       "Fn::GetAtt": [
+        "apiLambdaPOSTtodo52E7EC32",
+        "Arn"
+       ]
+      },
+      "\",\"handler\":\"packages/functions/src/todo.create\",\"localId\":\"c87b7d2e7dffc69af9c8cef6d8963264ef951f84d6\",\"secrets\":[]}}]}"
+     ]
+    ]
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}
