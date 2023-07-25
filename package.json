@@ -1,4 +1,6 @@
 {
+  "name": "5th-avegallery",
+  "version": "0.0.0",
   "private": true,
   "scripts": {
     "build": "turbo run build",
