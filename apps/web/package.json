@@ -2,7 +2,7 @@
 	"name": "@5th-avegallery/web",
 	"version": "0.0.0",
 	"scripts": {
-		"dev": "vite dev --port 3000 --open",
+		"dev": "sst bind vite dev --port 3000 --open",
 		"build": "vite build",
 		"package": "vite package",
 		"preview": "vite preview",
@@ -41,6 +41,7 @@
 		"sass": "^1.64.1",
 		"svelte": "^3.59.2",
 		"svelte-check": "^3.4.6",
+		"svelte-kit-sst": "^2.22.6",
 		"tailwindcss": "^3.3.3",
 		"tslib": "^2.6.1",
 		"typescript": "^5.1.6",

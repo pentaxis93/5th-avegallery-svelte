@@ -1,14 +1,14 @@
-import { SSTConfig } from "sst";
-import { API } from "./stacks/MyStack";
+import { SSTConfig } from 'sst';
+import Site from './stacks/Site';
 
 export default {
   config(_input) {
     return {
-      name: "my-sst-app",
-      region: "us-east-1",
+      name: '5th-avegallery',
+      region: 'us-east-1'
     };
   },
   stacks(app) {
-    app.stack(API);
+    app.stack(Site);
   }
 } satisfies SSTConfig;
