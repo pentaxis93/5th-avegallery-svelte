@@ -1,4 +1,5 @@
 import { SSTConfig } from 'sst';
+import { DNS } from './stacks/DNS';
 import Site from './stacks/Site';
 
 export default {
@@ -9,6 +10,6 @@ export default {
     };
   },
   stacks(app) {
-    app.stack(Site);
+    app.stack(DNS).stack(Site);
   }
 } satisfies SSTConfig;
