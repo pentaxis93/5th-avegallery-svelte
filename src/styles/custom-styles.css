@@ -1,6 +1,0 @@
-.nav-link {
-	@apply border-transparent
-		border-8
-		hover:border-dashed
-		hover:border-primary-900;
-}
