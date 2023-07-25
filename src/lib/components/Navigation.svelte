@@ -1,5 +1,13 @@
-<nav class="list-nav">
-	<ul class="flex flex-col items-center">
+<script lang="ts">
+	import { drawerStore } from '@skeletonlabs/skeleton';
+
+	function drawerClose(): void {
+		drawerStore.close();
+	}
+</script>
+
+<nav class="list-nav bg-secondary-500">
+	<ul class="flex">
 		<li><a class="nav-link" href="/">Home</a></li>
 		<li><a class="nav-link" href="/about">About</a></li>
 		<li><a class="nav-link" href="/blog">Blog</a></li>
