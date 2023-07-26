@@ -16,11 +16,11 @@
     },
     "sst:build": {
       "dependsOn": ["^sst:build"],
-      "outputs": ["dist/**"]
+      "outputs": [".build/**"]
     },
     "sst:deploy": {
       "dependsOn": ["sst:build"],
-      "outputs": ["dist/**"]
+      "outputs": [".build/**"]
     },
     "sst:remove": {
       "dependsOn": []
