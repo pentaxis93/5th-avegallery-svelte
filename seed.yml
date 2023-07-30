@@ -1,0 +1,2 @@
+before_build:
+  - pnpm -r --filter web run build
